@@ -15,7 +15,7 @@ engine.setProperty("voice", voices[0].id) #set the voices
 def speak(audio):
     engine.say (audio)
     engine.runAndWait()
-#speak ("I am EDITH. Tony Stark's augmented reality security and defense system. what can i help you")
+
 
 def commands():
     r=sr.Recognizer()
@@ -29,7 +29,7 @@ def commands():
         print("wait for few moments...")
         query = r.recognize_google(audio, language='en-in') 
         print(f"you just said : {query}\n")
-       # speak(query)
+       
     except Exception as e:
         print(e)
         speak("could you tell me again sir?")
@@ -47,7 +47,7 @@ def wakecommands():
         print("wait for few moments...")
         query = r.recognize_google(audio, language='en-in') 
         print(f"you just said : {query}\n")
-       # speak(query)
+       
     except Exception as e:
         print(e)
         speak("tell me again")
@@ -71,7 +71,7 @@ def wishings():
         speak(f"good night {user}")
     
 if __name__=="__main__":
-    #wishings()
+    
         while True:
             query=wakecommands().lower()
             if "wake up" in query:
@@ -126,8 +126,18 @@ if __name__=="__main__":
                         speak(f"maximizing {user}")
                         with pyautogui.hold('win'):
                             pyautogui.press(['up', 'up',])
-                    elif "close the tab" in query:
-                        speak(f"closing {user}")
+                    elif "close the application" in query:
+                        speak(f"are you sure sir you want to close the application.. {user}")
+                        while True:
+                            query=commands().lower()
+                            if "close it " in query:
+                                speak("closing sir..")
+                                with pyautogui.hold('alt'):
+                                    pyautogui.press(['f4'])
+                                    break
+                            elif "don't close" in query:
+                                speak("ok sir")
+                                break
                     elif "exit program" in query or "exit the program" in query or "bye "in query:  #exit program
                         speak(f"goodbye {user} have a great day")
                         quit()
