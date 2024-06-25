@@ -126,7 +126,7 @@ if __name__=="__main__":
                         speak(f"maximizing {user}")
                         with pyautogui.hold('win'):
                             pyautogui.press(['up', 'up',])
-                    elif "close the application" in query:
+                    elif "close the application" in query or "close application" in query:
                         speak(f"are you sure sir you want to close the application.. {user}")
                         while True:
                             query=commands().lower()
