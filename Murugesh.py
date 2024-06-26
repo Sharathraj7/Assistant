@@ -41,21 +41,22 @@ def wakecommands():
     r=sr.Recognizer()
     with sr.Microphone() as source:
         print("sleeping...")
+        r.pause_threshold = 1
+        r.adjust_for_ambient_noise(source,duration=10) #option
         audio=r.listen(source)
 
     try:
         print("wait for few moments...")
-        query = r.recognize_google(audio, language='en-in') 
+        query = r.recognize_google(audio, language='en-in')
         print(f"you just said : {query}\n")
        
     except Exception as e:
         print(e)
-        speak("tell me again")
         query="none"
-        commands()
+        wakecommands()
     return query
 
-def wishings():
+def wishings():                             #wishings
     hour=datetime.datetime.now().hour
     if hour>=0 and hour<12:
         print(f"Good Morning {user}")
@@ -74,20 +75,26 @@ if __name__=="__main__":
     
         while True:
             query=wakecommands().lower()
-            if "wake up" in query:
+
+            if "wake" in query:
                 print("waking up sir..")    
                 speak("waking up sir")
                 wishings()
                 speak(f"What can i help you {user}")
                 print(f"what can i help you {user}")
+                
                 while True:
                     query=commands().lower()
+
                     if "sleep" in query:            #sleep
+                        speak("Good night sir..")
                         break
+
                     elif "time" in query:           #time
                         strtime=datetime.datetime.now().strftime("%I:%M %p") 
                         speak(f"{user} the time is {strtime}")
                         print(strtime)
+
                     elif "open chrome" in query:
                         speak(f"opening chrome {user}")
                         print(f"opening chrome {user}")
@@ -105,10 +112,12 @@ if __name__=="__main__":
                         except:
                             print("not found")
                             speak("not found")
+
                     elif "play" in query:               #play song
                         query=query.replace('play',"")
                         speak(f"playing..{query}")
                         pywhatkit.playonyt(query)
+
                     elif "type" in query:                #open note pad and speak what you want to write
                         speak(f"tell me what should i type {user}")
                         while True:
@@ -118,19 +127,22 @@ if __name__=="__main__":
                                 break
                             else:
                                 pyautogui.write(typequery)
+
                     elif "minimize" in query or "minimise" in query:      #minimize the current window
                         speak(f"minimizing {user}")
                         with pyautogui.hold('win'):
                             pyautogui.press(['down', 'down',])
+
                     elif "maximize" in query or "maximise" in query:      #minimize the current window
                         speak(f"maximizing {user}")
                         with pyautogui.hold('win'):
                             pyautogui.press(['up', 'up',])
-                    elif "close the application" in query or "close application" in query:
+
+                    elif "close the application" in query or "close application" in query:  #to close the application
                         speak(f"are you sure sir you want to close the application.. {user}")
                         while True:
                             query=commands().lower()
-                            if "close it " in query:
+                            if "close" in query:
                                 speak("closing sir..")
                                 with pyautogui.hold('alt'):
                                     pyautogui.press(['f4'])
@@ -138,8 +150,8 @@ if __name__=="__main__":
                             elif "don't close" in query:
                                 speak("ok sir")
                                 break
+
                     elif "exit program" in query or "exit the program" in query or "bye "in query:  #exit program
                         speak(f"goodbye {user} have a great day")
                         quit()
                         
-
